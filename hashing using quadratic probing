@@ -33,6 +33,25 @@ int main()
 
     for(int i = 0; i < 10; i++)
         cout << i << " : " << hash[i] << endl;
+            cout << "\nEnter number to search: ";
+    cin >> key;
 
+    index = key % 10;
+    int j = 0;
+
+    while(j < 10 && hash[(index + j * j) % 10] != -1)
+    {
+        int pos = (index + j * j) % 10;
+
+        if(hash[pos] == key)
+        {
+            cout << "Number found at index " << pos;
+            return 0;
+        }
+
+        j++;
+    }
+
+    cout << "Number not found";
     return 0;
 }
