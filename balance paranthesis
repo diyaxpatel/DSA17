@@ -1,0 +1,51 @@
+#include <iostream>
+#include <stack>
+using namespace std;
+
+int main()
+{
+    stack<char> s;
+    string exp;
+    int i;
+    bool balanced = true;
+
+    cout << "Enter expression: ";
+    cin >> exp;
+
+    for(i = 0; i < exp.length(); i++)
+    {
+        if(exp[i] == '(' || exp[i] == '{' || exp[i] == '[')
+        {
+            s.push(exp[i]);
+        }
+        else if(exp[i] == ')' || exp[i] == '}' || exp[i] == ']')
+        {
+            if(s.empty())
+            {
+                balanced = false;
+                break;
+            }
+
+            char ch = s.top();
+            s.pop();
+
+            if((exp[i] == ')' && ch != '(') ||
+               (exp[i] == '}' && ch != '{') ||
+               (exp[i] == ']' && ch != '['))
+            {
+                balanced = false;
+                break;
+            }
+        }
+    }
+
+    if(!s.empty())
+        balanced = false;
+
+    if(balanced)
+        cout << "Expression is balanced";
+    else
+        cout << "Expression is not balanced";
+
+    return 0;
+}
