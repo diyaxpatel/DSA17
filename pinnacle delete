@@ -1,0 +1,156 @@
+#include <iostream>
+using namespace std;
+
+struct Node
+{
+    int prn;
+    string name;
+    Node *next;
+};
+
+Node *head = NULL;
+
+void addMember()
+{
+    Node *newnode = new Node;
+
+    cout << "Enter PRN: ";
+    cin >> newnode->prn;
+
+    cout << "Enter Name: ";
+    cin >> newnode->name;
+
+    newnode->next = NULL;
+
+    if(head == NULL)
+        head = newnode;
+    else
+    {
+        Node *temp = head;
+
+        while(temp->next != NULL)
+            temp = temp->next;
+
+        temp->next = newnode;
+    }
+}
+
+void deletePresident()
+{
+    if(head == NULL)
+    {
+        cout << "List is empty";
+        return;
+    }
+
+    Node *temp = head;
+    head = head->next;
+    delete temp;
+
+    cout << "President deleted";
+}
+
+void deleteSecretary()
+{
+    if(head == NULL)
+    {
+        cout << "List is empty";
+        return;
+    }
+
+    if(head->next == NULL)
+    {
+        delete head;
+        head = NULL;
+    }
+    else
+    {
+        Node *temp = head;
+
+        while(temp->next->next != NULL)
+            temp = temp->next;
+
+        delete temp->next;
+        temp->next = NULL;
+    }
+
+    cout << "Secretary deleted";
+}
+
+void deleteMember()
+{
+    int p;
+    cout << "Enter PRN to delete: ";
+    cin >> p;
+
+    if(head == NULL)
+    {
+        cout << "List is empty";
+        return;
+    }
+
+    if(head->prn == p)
+    {
+        deletePresident();
+        return;
+    }
+
+    Node *temp = head;
+
+    while(temp->next != NULL && temp->next->prn != p)
+        temp = temp->next;
+
+    if(temp->next == NULL)
+        cout << "Member not found";
+    else
+    {
+        Node *del = temp->next;
+        temp->next = del->next;
+        delete del;
+
+        cout << "Member deleted";
+    }
+}
+
+void display()
+{
+    Node *temp = head;
+
+    while(temp != NULL)
+    {
+        cout << "\n" << temp->prn << " " << temp->name;
+        temp = temp->next;
+    }
+}
+
+int main()
+{
+    int choice;
+
+    do
+    {
+        cout << "\n\n1. Add Member";
+        cout << "\n2. Delete President";
+        cout << "\n3. Delete Secretary";
+        cout << "\n4. Delete Member";
+        cout << "\n5. Display";
+        cout << "\n6. Exit";
+
+        cout << "\nEnter choice: ";
+        cin >> choice;
+
+        switch(choice)
+        {
+            case 1: addMember(); break;
+            case 2: deletePresident(); break;
+            case 3: deleteSecretary(); break;
+            case 4: deleteMember(); break;
+            case 5: display(); break;
+            case 6: break;
+            default: cout << "Invalid choice";
+        }
+
+    } while(choice != 6);
+
+    return 0;
+}
