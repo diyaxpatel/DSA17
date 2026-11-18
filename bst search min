@@ -1,0 +1,127 @@
+#include <iostream>
+using namespace std;
+
+struct Node
+{
+    int data;
+    Node *left, *right;
+};
+
+Node* insert(Node *root, int value)
+{
+    if(root == NULL)
+    {
+        Node *newnode = new Node;
+
+        newnode->data = value;
+        newnode->left = NULL;
+        newnode->right = NULL;
+
+        return newnode;
+    }
+
+    if(value < root->data)
+        root->left = insert(root->left, value);
+    else
+        root->right = insert(root->right, value);
+
+    return root;
+}
+
+bool search(Node *root, int key)
+{
+    if(root == NULL)
+        return false;
+
+    if(root->data == key)
+        return true;
+
+    if(key < root->data)
+        return search(root->left, key);
+    else
+        return search(root->right, key);
+}
+
+int minimum(Node *root)
+{
+    while(root->left != NULL)
+        root = root->left;
+
+    return root->data;
+}
+
+void display(Node *root)
+{
+    if(root != NULL)
+    {
+        display(root->left);
+        cout << root->data << " ";
+        display(root->right);
+    }
+}
+
+int main()
+{
+    Node *root = NULL;
+    int n, value, key, choice;
+
+    cout << "Enter number of nodes: ";
+    cin >> n;
+
+    for(int i = 0; i < n; i++)
+    {
+        cout << "Enter value: ";
+        cin >> value;
+
+        root = insert(root, value);
+    }
+
+    do
+    {
+        cout << "\n\n1. Insert Node";
+        cout << "\n2. Search Value";
+        cout << "\n3. Find Minimum";
+        cout << "\n4. Display";
+        cout << "\n5. Exit";
+
+        cout << "\nEnter choice: ";
+        cin >> choice;
+
+        switch(choice)
+        {
+            case 1:
+                cout << "Enter value: ";
+                cin >> value;
+                root = insert(root, value);
+                break;
+
+            case 2:
+                cout << "Enter value to search: ";
+                cin >> key;
+
+                if(search(root, key))
+                    cout << "Value found";
+                else
+                    cout << "Value not found";
+                break;
+
+            case 3:
+                if(root != NULL)
+                    cout << "Minimum: " << minimum(root);
+                break;
+
+            case 4:
+                display(root);
+                break;
+
+            case 5:
+                break;
+
+            default:
+                cout << "Invalid choice";
+        }
+
+    } while(choice != 5);
+
+    return 0;
+}
