@@ -1,0 +1,89 @@
+#include <iostream>
+using namespace std;
+
+struct Node
+{
+    int data;
+    Node *prev, *next;
+};
+
+Node *head = NULL, *tail = NULL;
+
+void insert(int x)
+{
+    Node *newnode = new Node;
+
+    newnode->data = x;
+    newnode->next = NULL;
+    newnode->prev = tail;
+
+    if(head == NULL)
+        head = tail = newnode;
+    else
+    {
+        tail->next = newnode;
+        tail = newnode;
+    }
+}
+
+void display()
+{
+    Node *temp = head;
+
+    while(temp != NULL)
+    {
+        cout << temp->data;
+        temp = temp->next;
+    }
+}
+
+int main()
+{
+    string binary;
+
+    cout << "Enter binary number: ";
+    cin >> binary;
+
+    for(int i = 0; i < binary.length(); i++)
+        insert(binary[i] - '0');
+
+    Node *temp = head;
+
+    while(temp != NULL)
+    {
+        temp->data = 1 - temp->data;
+        temp = temp->next;
+    }
+
+    cout << "\n1's Complement: ";
+    display();
+
+    temp = tail;
+    int carry = 1;
+
+    while(temp != NULL && carry == 1)
+    {
+        int sum = temp->data + carry;
+
+        temp->data = sum % 2;
+        carry = sum / 2;
+
+        temp = temp->prev;
+    }
+
+    if(carry == 1)
+    {
+        Node *newnode = new Node;
+        newnode->data = 1;
+        newnode->prev = NULL;
+        newnode->next = head;
+
+        head->prev = newnode;
+        head = newnode;
+    }
+
+    cout << "\n2's Complement: ";
+    display();
+
+    return 0;
+}
