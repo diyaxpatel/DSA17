@@ -1,0 +1,76 @@
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    int q[100], front = -1, rear = -1;
+    int choice, job;
+
+    do
+    {
+        cout << "\n\n1. Add Job";
+        cout << "\n2. Delete Job";
+        cout << "\n3. Display Jobs";
+        cout << "\n4. Exit";
+
+        cout << "\nEnter choice: ";
+        cin >> choice;
+
+        switch(choice)
+        {
+            case 1:
+                if(rear == 99)
+                {
+                    cout << "Queue is full";
+                }
+                else
+                {
+                    cout << "Enter job number: ";
+                    cin >> job;
+
+                    if(front == -1)
+                        front = 0;
+
+                    rear++;
+                    q[rear] = job;
+
+                    cout << "Job added";
+                }
+                break;
+
+            case 2:
+                if(front == -1 || front > rear)
+                {
+                    cout << "Queue is empty";
+                }
+                else
+                {
+                    cout << "Deleted job: " << q[front];
+                    front++;
+                }
+                break;
+
+            case 3:
+                if(front == -1 || front > rear)
+                    cout << "Queue is empty";
+                else
+                {
+                    cout << "Jobs: ";
+
+                    for(int i = front; i <= rear; i++)
+                        cout << q[i] << " ";
+                }
+                break;
+
+            case 4:
+                cout << "Exiting";
+                break;
+
+            default:
+                cout << "Invalid choice";
+        }
+
+    } while(choice != 4);
+
+    return 0;
+}
